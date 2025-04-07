@@ -19,4 +19,11 @@ public class BonjourController
     {
         return "Salut monde!";
     }
+    
+    [HttpGet]
+    [Route("/api/[controller]/personne/{nom?}")]
+    public string BonjourNom(string? nom)
+    {
+        return $"Bonjour, {nom}!";
+    }
 }
