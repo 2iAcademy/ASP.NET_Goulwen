@@ -13,36 +13,31 @@ public class BonjourController
         return "Bonjour monde!";
     }
     
-    [HttpGet]
-    [Route("/api/[controller]/salut")]
+    [HttpGet("/api/[controller]/salut")]
     public string Salut()
     {
         return "Salut monde!";
     }
     
-    [HttpGet]
-    [Route("/api/[controller]/personne/{nom}")]
+    [HttpGet("/api/[controller]/personne/{nom}")]
     public string BonjourNom(string? nom)
     {
         return $"Bonjour, {nom}!";
     }
     
-    [HttpGet]
-    [Route("/api/[controller]/add/{a}/{b}")]
+    [HttpGet("/api/[controller]/add/{a}/{b}")]
     public string Add(int? a, int? b)
     {
         return $"Résultat: {a + b}!";
     }
     
-    [HttpGet]
-    [Route("/api/[controller]/heure")]
+    [HttpGet("/api/[controller]/heure")]
     public string GetHeure()
     {
         return $"Il est {DateTime.Now.TimeOfDay}!";
     }
     
-    [HttpGet]
-    [Route("/api/[controller]/majeur/{age}")]
+    [HttpGet("/api/[controller]/majeur/{age}")]
     public string IsMajeur(int? age)
     {
         if (age < 18)
