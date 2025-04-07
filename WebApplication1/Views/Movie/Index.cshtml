@@ -1,0 +1,10 @@
+@model List<WebApplication1.Models.Movie>
+
+<h2> Ma liste de films :</h2>
+
+<ul>
+    @foreach (var movie in Model)
+    {
+        <li>@movie.Title - Directeur : @movie.Director</li>
+    }
+</ul>
