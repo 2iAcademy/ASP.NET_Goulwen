@@ -3,23 +3,31 @@
 <h2>Ma liste de livres :</h2>
 
 <table>
-    <tr>
-        <th>Id</th>
-        <th>Titre</th>
-        <th>Auteur</th>
-        <th>Année</th>
-    </tr>
     
-    @foreach (var livre in Model)
+    @if (Model.Count > 0)
     {
         <tr>
-            <th>@livre.Id</th>
-            <th>@livre.Title</th>
-            <th>@livre.Author</th>
-            <th>@livre.Year</th>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Année</th>
         </tr>
+
+        @foreach (var livre in Model)
+        {
+            <tr>
+                <th>@livre.Id</th>
+                <th>@livre.Title</th>
+                <th>@livre.Author</th>
+                <th>@livre.Year</th>
+            </tr>
+        }
     }
-    
+    @if (Model.Count == 0)
+    {
+        <h2>Il n'y a pas de livre dans la liste!</h2>
+    }
+
 </table>
 
 <style>
