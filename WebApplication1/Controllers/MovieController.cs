@@ -13,6 +13,7 @@ public class MovieController : Controller
             new Movie {Id = 2, Title = "Matrix", Director = "The Dark"},
             new Movie {Id = 3, Title = "The Dark", Director = "Nolan"},
         };
+        
         return View(movies);
     }
 }
