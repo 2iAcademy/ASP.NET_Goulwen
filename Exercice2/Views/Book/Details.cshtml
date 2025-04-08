@@ -1,0 +1,37 @@
+﻿@model Exercice2.Models.Book
+
+<h2>Détails du livre :</h2>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>Année</th>
+    </tr>
+
+    <tr>
+        <th>@Model.Id</th>
+        <th>@Model.Title</th>
+        <th>@Model.Author</th>
+        <th>@Model.Year</th>
+    </tr>
+</table>
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
