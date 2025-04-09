@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercice2", "Exercice2\Exercice2.csproj", "{940F2096-0E15-4D78-8A33-976925A1C4D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerComposeTest", "DockerComposeTest\DockerComposeTest.csproj", "{1BBF7B3F-F8CC-451F-80E9-E33501097874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerComposeTest", "DockerComposeTest\DockerComposeTest.csproj", "{C3569071-486F-4623-8CAF-E1020837B730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +26,9 @@ Global
 		{940F2096-0E15-4D78-8A33-976925A1C4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{940F2096-0E15-4D78-8A33-976925A1C4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{940F2096-0E15-4D78-8A33-976925A1C4D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BBF7B3F-F8CC-451F-80E9-E33501097874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BBF7B3F-F8CC-451F-80E9-E33501097874}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BBF7B3F-F8CC-451F-80E9-E33501097874}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BBF7B3F-F8CC-451F-80E9-E33501097874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3569071-486F-4623-8CAF-E1020837B730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3569071-486F-4623-8CAF-E1020837B730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3569071-486F-4623-8CAF-E1020837B730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3569071-486F-4623-8CAF-E1020837B730}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
