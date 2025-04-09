@@ -6,3 +6,5 @@ WebApplication1/wwwroot/lib
 Exercice2/bin
 Exercice2/obj
 Exercice2/wwwroot/lib
+DockerComposeTest/obj
+.env
