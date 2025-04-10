@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies_Exercice3.Data;
 
@@ -11,9 +12,11 @@ using Movies_Exercice3.Data;
 namespace Movies_Exercice3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410142812_removeActors")]
+    partial class removeActors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +38,6 @@ namespace Movies_Exercice3.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("GenreMovie");
-                });
-
-            modelBuilder.Entity("MoviePerson", b =>
-                {
-                    b.Property<int>("ActorsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MoviesPlayedInId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ActorsId", "MoviesPlayedInId");
-
-                    b.HasIndex("MoviesPlayedInId");
-
-                    b.ToTable("MoviePerson");
                 });
 
             modelBuilder.Entity("Movies_Exercice3.Models.Genre", b =>
@@ -207,21 +195,6 @@ namespace Movies_Exercice3.Migrations
                         .WithMany()
                         .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MoviePerson", b =>
-                {
-                    b.HasOne("Movies_Exercice3.Models.Person", null)
-                        .WithMany()
-                        .HasForeignKey("ActorsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Movies_Exercice3.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesPlayedInId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
