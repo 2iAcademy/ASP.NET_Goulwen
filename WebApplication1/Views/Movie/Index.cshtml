@@ -1,5 +1,7 @@
 @model List<WebApplication1.Models.Movie>
 
+<script>console.log("movie : ", Movie)</script>
+
 <h2> Ma liste de films :</h2>
 
 <ul>
@@ -8,3 +10,5 @@
         <li>@movie.Title - Directeur : @movie.Director</li>
     }
 </ul>
+
+<a href="/movie/create">Ajouter un film</a>

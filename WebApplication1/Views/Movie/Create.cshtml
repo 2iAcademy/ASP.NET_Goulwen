@@ -1,0 +1,16 @@
+﻿@model WebApplication1.Models.Movie
+
+<h1>Ajouter un film :</h1>
+<form asp-action="Create">
+    <div>
+        <label asp-for="Title">Titre :</label>
+        <input asp-for="Title"/>
+    </div>
+    <div>
+        <label asp-for="Director">Directeur :</label>
+        <input asp-for="Director"/>
+    </div>
+    <button type="submit">Enregistrer</button>
+</form>
+
+<a href="/movie">Voir les films</a>
