@@ -7,5 +7,5 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
     
-    public DbSet<Cinema> Cinema => Set<Cinema>();
+    public DbSet<Theater> Theater => Set<Theater>();
 }
