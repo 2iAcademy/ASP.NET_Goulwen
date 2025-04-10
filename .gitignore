@@ -10,4 +10,5 @@ Movies_Exercice3/bin
 Movies_Exercice3/obj
 Movies_Exercice3/wwwroot/lib
 DockerComposeTest/obj
+.idea/
 .env
