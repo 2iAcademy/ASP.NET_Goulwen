@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies_Exercice3.Data;
 
@@ -11,9 +12,11 @@ using Movies_Exercice3.Data;
 namespace Movies_Exercice3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410130646_modifDbContext")]
+    partial class modifDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,6 +76,23 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("Movie");
                 });
 
+            modelBuilder.Entity("Movies_Exercice3.Models.MovieTheater", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MovieTheater");
+                });
+
             modelBuilder.Entity("Movies_Exercice3.Models.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -112,15 +132,16 @@ namespace Movies_Exercice3.Migrations
                     b.Property<int>("ReservationsCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ScreenRoomId")
+                    b.Property<int?>("ScreenRoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScreeningRoomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.HasIndex("ScreenRoomId");
 
@@ -145,31 +166,11 @@ namespace Movies_Exercice3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TheaterId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TheaterId");
+                    b.HasIndex("MovieTheaterId");
 
                     b.ToTable("ScreenRoom");
-                });
-
-            modelBuilder.Entity("Movies_Exercice3.Models.Theater", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Theater");
                 });
 
             modelBuilder.Entity("Movies_Exercice3.Models.Genre", b =>
@@ -199,28 +200,18 @@ namespace Movies_Exercice3.Migrations
 
             modelBuilder.Entity("Movies_Exercice3.Models.ScheduledScreening", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Movies_Exercice3.Models.ScreenRoom", "ScreenRoom")
+                    b.HasOne("Movies_Exercice3.Models.ScreenRoom", null)
                         .WithMany("ScheduledScreenings")
-                        .HasForeignKey("ScreenRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("ScreenRoom");
+                        .HasForeignKey("ScreenRoomId");
                 });
 
             modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Theater", null)
+                    b.HasOne("Movies_Exercice3.Models.MovieTheater", null)
                         .WithMany("ScreenRooms")
-                        .HasForeignKey("TheaterId");
+                        .HasForeignKey("MovieTheaterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Movies_Exercice3.Models.Movie", b =>
@@ -230,14 +221,14 @@ namespace Movies_Exercice3.Migrations
                     b.Navigation("Genre");
                 });
 
+            modelBuilder.Entity("Movies_Exercice3.Models.MovieTheater", b =>
+                {
+                    b.Navigation("ScreenRooms");
+                });
+
             modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
                 {
                     b.Navigation("ScheduledScreenings");
-                });
-
-            modelBuilder.Entity("Movies_Exercice3.Models.Theater", b =>
-                {
-                    b.Navigation("ScreenRooms");
                 });
 #pragma warning restore 612, 618
         }
