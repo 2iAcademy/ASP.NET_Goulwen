@@ -12,8 +12,8 @@ using Movies_Exercice3.Data;
 namespace Movies_Exercice3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250410142812_removeActors")]
-    partial class removeActors
+    [Migration("20250410142900_addActorsRelation")]
+    partial class addActorsRelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,22 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("GenreMovie");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Genre", b =>
+            modelBuilder.Entity("MoviePerson", b =>
+                {
+                    b.Property<int>("ActorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MoviesPlayedInId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ActorsId", "MoviesPlayedInId");
+
+                    b.HasIndex("MoviesPlayedInId");
+
+                    b.ToTable("MoviePerson");
+                });
+
+            modelBuilder.Entity("Exercice3 - Movies.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +76,7 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("Genre");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Movie", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +101,7 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("Movie");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Person", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +124,7 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScheduledScreening", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScheduledScreening", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,7 +153,7 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("ScheduledScreening");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScreenRoom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,7 +181,7 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("ScreenRoom");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Theater", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Theater", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,22 +200,37 @@ namespace Movies_Exercice3.Migrations
 
             modelBuilder.Entity("GenreMovie", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Genre", null)
+                    b.HasOne("Exercice3 - Movies.Models.Genre", null)
                         .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Movies_Exercice3.Models.Movie", null)
+                    b.HasOne("Exercice3 - Movies.Models.Movie", null)
                         .WithMany()
                         .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Movie", b =>
+            modelBuilder.Entity("MoviePerson", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Person", "Director")
+                    b.HasOne("Exercice3 - Movies.Models.Person", null)
+                        .WithMany()
+                        .HasForeignKey("ActorsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Exercice3 - Movies.Models.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MoviesPlayedInId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Exercice3 - Movies.Models.Movie", b =>
+                {
+                    b.HasOne("Exercice3 - Movies.Models.Person", "Director")
                         .WithMany("MoviesDirected")
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -209,15 +239,15 @@ namespace Movies_Exercice3.Migrations
                     b.Navigation("Director");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScheduledScreening", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScheduledScreening", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Movie", "Movie")
+                    b.HasOne("Exercice3 - Movies.Models.Movie", "Movie")
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Movies_Exercice3.Models.ScreenRoom", "ScreenRoom")
+                    b.HasOne("Exercice3 - Movies.Models.ScreenRoom", "ScreenRoom")
                         .WithMany("ScheduledScreenings")
                         .HasForeignKey("ScreenRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -228,24 +258,24 @@ namespace Movies_Exercice3.Migrations
                     b.Navigation("ScreenRoom");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScreenRoom", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Theater", null)
+                    b.HasOne("Exercice3 - Movies.Models.Theater", null)
                         .WithMany("ScreenRooms")
                         .HasForeignKey("TheaterId");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Person", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Person", b =>
                 {
                     b.Navigation("MoviesDirected");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScreenRoom", b =>
                 {
                     b.Navigation("ScheduledScreenings");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Theater", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Theater", b =>
                 {
                     b.Navigation("ScreenRooms");
                 });

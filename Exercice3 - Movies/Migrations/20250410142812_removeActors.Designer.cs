@@ -12,8 +12,8 @@ using Movies_Exercice3.Data;
 namespace Movies_Exercice3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250410130646_modifDbContext")]
-    partial class modifDbContext
+    [Migration("20250410142812_removeActors")]
+    partial class removeActors
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,22 @@ namespace Movies_Exercice3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Genre", b =>
+            modelBuilder.Entity("GenreMovie", b =>
+                {
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MoviesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GenreId", "MoviesId");
+
+                    b.HasIndex("MoviesId");
+
+                    b.ToTable("GenreMovie");
+                });
+
+            modelBuilder.Entity("Exercice3 - Movies.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,21 +52,16 @@ namespace Movies_Exercice3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
-
                     b.ToTable("Genre");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Movie", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,24 +86,7 @@ namespace Movies_Exercice3.Migrations
                     b.ToTable("Movie");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.MovieTheater", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MovieTheater");
-                });
-
-            modelBuilder.Entity("Movies_Exercice3.Models.Person", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,19 +99,17 @@ namespace Movies_Exercice3.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("FullName")
+                        .IsUnique();
 
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScheduledScreening", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScheduledScreening", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,10 +123,7 @@ namespace Movies_Exercice3.Migrations
                     b.Property<int>("ReservationsCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ScreenRoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ScreeningRoomId")
+                    b.Property<int>("ScreenRoomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
@@ -143,12 +131,14 @@ namespace Movies_Exercice3.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
                     b.HasIndex("ScreenRoomId");
 
                     b.ToTable("ScheduledScreening");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScreenRoom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,69 +156,98 @@ namespace Movies_Exercice3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TheaterId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieTheaterId");
+                    b.HasIndex("TheaterId");
 
                     b.ToTable("ScreenRoom");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Genre", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Theater", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Movie", null)
-                        .WithMany("Genre")
-                        .HasForeignKey("MovieId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Theater");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Movie", b =>
+            modelBuilder.Entity("GenreMovie", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Person", "Director")
+                    b.HasOne("Exercice3 - Movies.Models.Genre", null)
                         .WithMany()
-                        .HasForeignKey("DirectorId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Exercice3 - Movies.Models.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Exercice3 - Movies.Models.Movie", b =>
+                {
+                    b.HasOne("Exercice3 - Movies.Models.Person", "Director")
+                        .WithMany("MoviesDirected")
+                        .HasForeignKey("DirectorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Director");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Person", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScheduledScreening", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Movie", null)
-                        .WithMany("Actors")
-                        .HasForeignKey("MovieId");
-                });
-
-            modelBuilder.Entity("Movies_Exercice3.Models.ScheduledScreening", b =>
-                {
-                    b.HasOne("Movies_Exercice3.Models.ScreenRoom", null)
-                        .WithMany("ScheduledScreenings")
-                        .HasForeignKey("ScreenRoomId");
-                });
-
-            modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
-                {
-                    b.HasOne("Movies_Exercice3.Models.MovieTheater", null)
-                        .WithMany("ScreenRooms")
-                        .HasForeignKey("MovieTheaterId")
+                    b.HasOne("Exercice3 - Movies.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Exercice3 - Movies.Models.ScreenRoom", "ScreenRoom")
+                        .WithMany("ScheduledScreenings")
+                        .HasForeignKey("ScreenRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("ScreenRoom");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Movie", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScreenRoom", b =>
                 {
-                    b.Navigation("Actors");
-
-                    b.Navigation("Genre");
+                    b.HasOne("Exercice3 - Movies.Models.Theater", null)
+                        .WithMany("ScreenRooms")
+                        .HasForeignKey("TheaterId");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.MovieTheater", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Person", b =>
                 {
-                    b.Navigation("ScreenRooms");
+                    b.Navigation("MoviesDirected");
                 });
 
-            modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.ScreenRoom", b =>
                 {
                     b.Navigation("ScheduledScreenings");
+                });
+
+            modelBuilder.Entity("Exercice3 - Movies.Models.Theater", b =>
+                {
+                    b.Navigation("ScreenRooms");
                 });
 #pragma warning restore 612, 618
         }

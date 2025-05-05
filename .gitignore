@@ -8,10 +8,10 @@ WebApplication1/obj
 WebApplication1/wwwroot/lib
 Exercice2 - Books/bin
 Exercice2 - Books/obj
-Exercice2/wwwroot/lib
-Movies_Exercice3/bin
-Movies_Exercice3/obj
-Movies_Exercice3/wwwroot/lib
+Exercice2  - Movies/wwwroot/lib
+Exercice3 - Movies/bin
+Exercice3 - Movies/obj
+Exercice3 - Movies/wwwroot/lib
 DockerComposeTest/obj
 .idea
 .env

@@ -24,7 +24,7 @@ namespace Movies_Exercice3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Movies_Exercice3.Models.Cinema", b =>
+            modelBuilder.Entity("Exercice3 - Movies.Models.Cinema", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
