@@ -28,6 +28,11 @@ public class AppDbContext : DbContext
             .WithMany(actor => actor.MoviesDirected)
             .OnDelete(DeleteBehavior.Restrict);
         
+        modelBuilder.Entity<Theater>()
+            .HasMany(theater => theater.ScreenRooms)
+            .WithOne(screenroom => screenroom.Theater)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<Person>().HasIndex(person => person.FullName).IsUnique();
     }
 }

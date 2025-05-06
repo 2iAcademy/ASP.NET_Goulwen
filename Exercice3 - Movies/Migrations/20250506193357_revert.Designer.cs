@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies_Exercice3.Data;
 
@@ -11,9 +12,11 @@ using Movies_Exercice3.Data;
 namespace Movies_Exercice3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506193357_revert")]
+    partial class revert
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,11 +164,14 @@ namespace Movies_Exercice3.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<int>("MovieTheaterId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TheaterId")
+                    b.Property<int?>("TheaterId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -254,13 +260,9 @@ namespace Movies_Exercice3.Migrations
 
             modelBuilder.Entity("Movies_Exercice3.Models.ScreenRoom", b =>
                 {
-                    b.HasOne("Movies_Exercice3.Models.Theater", "Theater")
+                    b.HasOne("Movies_Exercice3.Models.Theater", null)
                         .WithMany("ScreenRooms")
-                        .HasForeignKey("TheaterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Theater");
+                        .HasForeignKey("TheaterId");
                 });
 
             modelBuilder.Entity("Movies_Exercice3.Models.Person", b =>

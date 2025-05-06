@@ -3,7 +3,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Movies_Exercice3.Data;
+using Movies_Exercice3.Models;
 
 namespace Movies_Exercice3.Controllers;
 
@@ -22,7 +24,14 @@ public class TheaterController(AppDbContext context)
     [HttpGet]
     public string Get()
     {
-        return JsonSerializer.Serialize(_context.Theater, _jsonOptions);
+        return JsonSerializer.Serialize(_context.Theater.Include(t=>t.ScreenRooms), _jsonOptions);
+    }
+    
+    [HttpGet]
+    [Route("{Id}")]
+    public string GetById(int id)
+    {
+        return JsonSerializer.Serialize(_context.Theater.Include(t => t.ScreenRooms).Where(t => t.Id == id), _jsonOptions);
     }
     
 }
