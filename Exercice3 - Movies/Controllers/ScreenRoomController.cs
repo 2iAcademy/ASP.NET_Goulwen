@@ -31,6 +31,6 @@ public class ScreenRoomController(AppDbContext context)
     [Route("{Id}")]
     public string GetById(int id)
     {
-        return JsonSerializer.Serialize(_context.ScreenRoom.Include(s => s.Theater).Where(t => t.Id == id), _jsonOptions);
+        return JsonSerializer.Serialize(_context.ScreenRoom.Include(s => s.Theater).Where(t => t.Id == id).FirstOrDefault(), _jsonOptions);
     }
 }
