@@ -3,9 +3,9 @@ Cours_ASP.NET.sln
 Exercice1 - API/bin
 Exercice1 - API/obj
 DockerComposeTest/bin
-WebApplication1/bin
-WebApplication1/obj
-WebApplication1/wwwroot/lib
+WebApplication1 - MVC et Db/bin
+WebApplication1 - MVC et Db/obj
+WebApplication1 - MVC et Db/wwwroot/lib
 Exercice2 - Books/bin
 Exercice2 - Books/obj
 Exercice2  - Movies/wwwroot/lib
