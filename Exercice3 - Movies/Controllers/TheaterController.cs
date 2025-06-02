@@ -18,33 +18,29 @@ public class TheaterController(AppDbContext context)
     private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
         WriteIndented = true,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        ReferenceHandler = ReferenceHandler.IgnoreCycles 
     };
     
     [HttpGet]
     public string Get()
     {
+        /* Exemple de projection LINQ pour renvoyer seulement certains champs
         var theaters = _context.Theater.Select(t => new
         {
             t.Id,
             t.Name,
             ScreenRooms = t.ScreenRooms.Select(s=> new {s.Id, s.Name})
-        });
-        return JsonSerializer.Serialize(theaters, _jsonOptions);
+        }); */
+        
+        return JsonSerializer.Serialize(_context.Theater.Include(t => t.ScreenRooms),_jsonOptions);
     }
     
     [HttpGet]
     [Route("{Id}")]
     public string GetById(int id)
     {
-        var theater = _context.Theater.Select(t => new
-            {
-                t.Id,
-                t.Name,
-                ScreenRooms = t.ScreenRooms.Select(s=> new {s.Id, s.Name})
-            }
-        ).Where(t => t.Id == id);
-        return JsonSerializer.Serialize(theater, _jsonOptions);
+        return JsonSerializer.Serialize( _context.Theater.Include(t => t.ScreenRooms).Where(t => t.Id == id), _jsonOptions);
     }
     
 }
