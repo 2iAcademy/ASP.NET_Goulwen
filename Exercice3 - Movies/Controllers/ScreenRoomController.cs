@@ -1,18 +1,16 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Movies_Exercice3.Data;
-using Movies_Exercice3.Models;
 
 namespace Movies_Exercice3.Controllers;
 
 [EnableCors]
 [ApiController]
 [Route("api/[controller]")]
-public class TheaterController(AppDbContext context)
+public class ScreenRoomController(AppDbContext context)
 {
     private readonly AppDbContext _context = context;
     private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
@@ -24,27 +22,21 @@ public class TheaterController(AppDbContext context)
     [HttpGet]
     public string Get()
     {
-        var theaters = _context.Theater.Select(t => new
+        var screenrooms = _context.ScreenRoom.Select(s => new
         {
-            t.Id,
-            t.Name,
-            ScreenRooms = t.ScreenRooms.Select(s=> new {s.Id, s.Name})
+            s.Id,
+            s.Name,
+            s.Capacity,
+            s.ScheduledScreenings,
+            Theater = new { s.Theater.Id, s.Theater.Name }
         });
-        return JsonSerializer.Serialize(theaters, _jsonOptions);
+        return JsonSerializer.Serialize(screenrooms, _jsonOptions);
     }
     
     [HttpGet]
     [Route("{Id}")]
     public string GetById(int id)
     {
-        var theater = _context.Theater.Select(t => new
-            {
-                t.Id,
-                t.Name,
-                ScreenRooms = t.ScreenRooms.Select(s=> new {s.Id, s.Name})
-            }
-        ).Where(t => t.Id == id);
-        return JsonSerializer.Serialize(theater, _jsonOptions);
+        return JsonSerializer.Serialize(_context.ScreenRoom.Include(t => t.Theater).Where(t => t.Id == id), _jsonOptions);
     }
-    
 }

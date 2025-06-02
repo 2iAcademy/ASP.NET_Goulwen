@@ -8,7 +8,6 @@ public class ScreenRoom
     public required string Name { get; set; }
     public required int Capacity { get; set; }
     public int TheaterId { get; set; }
-    [JsonIgnore]
     public Theater Theater { get; set; } = null!;
     public List<ScheduledScreening> ScheduledScreenings { get; set; } = [];
 

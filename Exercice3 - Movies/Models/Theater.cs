@@ -1,4 +1,6 @@
-﻿namespace Movies_Exercice3.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Movies_Exercice3.Models;
 
 public class Theater
 {
