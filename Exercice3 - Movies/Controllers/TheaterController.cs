@@ -40,7 +40,7 @@ public class TheaterController(AppDbContext context)
     [Route("{Id}")]
     public string GetById(int id)
     {
-        return JsonSerializer.Serialize(_context.Theater.Include(t => t.ScreenRooms).Where(t => t.Id == id).FirstOrDefault(), _jsonOptions);
+        return JsonSerializer.Serialize(_context.Theater.Include(t => t.ScreenRooms).FirstOrDefault(t => t.Id == id), _jsonOptions);
     }
     
 }
