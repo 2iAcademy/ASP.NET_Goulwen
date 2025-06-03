@@ -11,30 +11,29 @@ namespace Movies_Exercice3.Controllers;
 [EnableCors]
 [ApiController]
 [Route("api/[controller]")]
-public class ScreenRoomController(AppDbContext context)
+public class GenreController(AppDbContext context)
 {
     private readonly AppDbContext _context = context;
     private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
         WriteIndented = true,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-        ReferenceHandler = ReferenceHandler.IgnoreCycles 
+        ReferenceHandler = ReferenceHandler.IgnoreCycles
     };
     
     [HttpGet]
     public string Get()
     {
-        return JsonSerializer.Serialize(_context.ScreenRoom.Include(s => s.Theater), _jsonOptions);
+        return JsonSerializer.Serialize(_context.Genre.Include(g => g.Movies), _jsonOptions);
     }
     
     [HttpGet]
     [Route("{Id}")]
     public string GetById(int id)
     {
-        return JsonSerializer.Serialize(_context.ScreenRoom
-            .Include(s => s.Theater)
-            .Include(s => s.ScheduledScreenings)
-            .ThenInclude(sc => sc.Movie)
-            .FirstOrDefault(t => t.Id == id), _jsonOptions);
+        return JsonSerializer.Serialize(_context.Genre
+                .Include(g => g.Movies)
+                .FirstOrDefault(t => t.Id == id)
+            , _jsonOptions);
     }
 }
