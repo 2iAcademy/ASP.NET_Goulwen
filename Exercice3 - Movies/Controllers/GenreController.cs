@@ -24,7 +24,9 @@ public class GenreController(AppDbContext context)
     [HttpGet]
     public string Get()
     {
-        return JsonSerializer.Serialize(_context.Genre.Include(g => g.Movies), _jsonOptions);
+        return JsonSerializer.Serialize(_context.Genre
+            .Include(g => g.Movies)
+            , _jsonOptions);
     }
     
     [HttpGet]
@@ -33,6 +35,7 @@ public class GenreController(AppDbContext context)
     {
         return JsonSerializer.Serialize(_context.Genre
                 .Include(g => g.Movies)
+                .ThenInclude(m => m.Director)
                 .FirstOrDefault(t => t.Id == id)
             , _jsonOptions);
     }
