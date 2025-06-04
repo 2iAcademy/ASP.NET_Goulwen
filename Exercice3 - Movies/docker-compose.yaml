@@ -1,24 +1,42 @@
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-CU18-ubuntu-22.04
-    container_name: sqlserver-movies
+  mysql:
+    image: mysql:9.3.0
+    container_name: mysql-movies
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Test1234!
+      - MYSQL_ROOT_PASSWORD=Test1234!
     ports:
-      - "1433:1433"
+      - "1434:3306"
+    networks:
+      - bridge
     volumes:
-      - sqlserver_data:/var/opt/mssql
+      - mysql-movies-data:/var/lib/mysql
+    restart: unless-stopped
   
   app:
-    image: mcr.microsoft.com/dotnet/sdk:9.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: app-movies
     container_name: app-movies
-    volumes:
-      - ./app:/app
-    working_dir: /app
+    environment:
+      - APP_UID=1654
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNET_VERSION=9.0.0
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_VERSION=9.0.0
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - "5179:8080"
+    networks:
+      - bridge
     depends_on:
-      - sqlserver
-    tty: true
+      - mysql
+    restart: unless-stopped
       
 volumes:
-  sqlserver_data:
+  mysql-movies-data:
+    external: true
+    
+networks:
+  bridge:
+    external: true
