@@ -1,42 +1,53 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Movies_Exercice3.Data;
+using Movies_Exercice3.Models;
 
 namespace Movies_Exercice3.Controllers;
 
 [EnableCors]
 [ApiController]
 [Route("api/[controller]")]
-public class GenreController(AppDbContext context)
+public class GenreController(AppDbContext context) : Controller
 {
     private readonly AppDbContext _context = context;
-    private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
-    {
-        WriteIndented = true,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-        ReferenceHandler = ReferenceHandler.IgnoreCycles
-    };
     
     [HttpGet]
-    public string Get()
+    public async Task<ActionResult<List<Genre>>> Get()
     {
-        return JsonSerializer.Serialize(_context.Genre
-            .Include(g => g.Movies)
-            , _jsonOptions);
+        return await _context.Genre.Include(g => g.Movies).ToListAsync();
     }
     
     [HttpGet]
     [Route("{Id}")]
-    public string GetById(int id)
+    public async Task<ActionResult<Genre>> GetById(int id)
     {
-        return JsonSerializer.Serialize(_context.Genre
-                .Include(g => g.Movies)
-                .ThenInclude(m => m.Director)
-                .FirstOrDefault(t => t.Id == id)
-            , _jsonOptions);
+        return await _context.Genre
+            .Include(g => g.Movies)
+            .ThenInclude(m => m.Director)
+            .FirstOrDefaultAsync(t => t.Id == id) ?? (ActionResult<Genre>) NotFound();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Genre>> Post(Genre genre)
+    {
+        _context.Genre.Add(genre);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetById), new { id = genre.Id }, genre);
+    }
+    
+    [HttpDelete]
+    [Route("{Id}")]
+    public async Task<ActionResult<Genre>> Delete(int id)
+    {
+        var genre = await _context.Genre.FindAsync(id);
+        if (genre == null)
+        {
+            return NotFound();
+        }
+        _context.Genre.Remove(genre);
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 }
