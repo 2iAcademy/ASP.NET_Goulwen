@@ -37,6 +37,19 @@ public class GenreController(AppDbContext context) : Controller
         return CreatedAtAction(nameof(GetById), new { id = genre.Id }, genre);
     }
     
+    [HttpPut]
+    [Route("{Id}")]
+    public async Task<ActionResult<Genre>> Put(int id, Genre updatedGenre)
+    {
+        var genre = await _context.Genre.FindAsync(id);
+        if (genre == null)
+        {
+            return NotFound();
+        }
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+    
     [HttpDelete]
     [Route("{Id}")]
     public async Task<ActionResult<Genre>> Delete(int id)
