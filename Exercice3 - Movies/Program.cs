@@ -23,9 +23,9 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:4200",
                     "http://192.168.1.72:83",
-                    "http://192.168.1.72:80",
+                    "http://192.168.1.72",
                     "http://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]:83",
-                    "http://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]:80",
+                    "http://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]",
                     "http://gdelaunay.fr")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
