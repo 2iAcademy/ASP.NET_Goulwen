@@ -16,3 +16,4 @@ DockerComposeTest/obj
 .idea
 .vscode
 .env
+Jenkinsfile

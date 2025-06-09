@@ -7,7 +7,7 @@ services:
     ports:
       - "1434:3306"
     networks:
-      - my-bridge-network
+      - movies-network
     volumes:
       - mysql-movies-data:/var/lib/mysql
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
     ports:
       - "5179:8080"
     networks:
-      - my-bridge-network
+      - movies-network
     depends_on:
       - mysql
     restart: unless-stopped
@@ -38,5 +38,5 @@ volumes:
     external: true
     
 networks:
-  my-bridge-network:
+  movies-network:
     external: true
