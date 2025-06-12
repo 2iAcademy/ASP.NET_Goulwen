@@ -45,7 +45,8 @@ public class GenreController(AppDbContext context) : Controller
         if (genre == null)
         {
             return NotFound();
-        }
+        }// TODO
+        genre = updatedGenre;
         await _context.SaveChangesAsync();
         return NoContent();
     }

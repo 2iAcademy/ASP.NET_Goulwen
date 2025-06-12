@@ -5,7 +5,7 @@ using Movies_Exercice3.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews() .AddJsonOptions(options =>
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -21,12 +21,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200",
-                    "http://192.168.1.72:83",
-                    "http://192.168.1.72",
-                    "http://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]:83",
-                    "http://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]",
-                    "http://gdelaunay.fr")
+            policy.WithOrigins("https://localhost:4200",
+                    "https://192.168.1.72:83",
+                    "https://192.168.1.72",
+                    "https://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]:83",
+                    "https://[2a02:842a:8217:8e01:265e:beff:fe3c:8d95]",
+                    "https://gdelaunay.fr")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .WithExposedHeaders("Location");

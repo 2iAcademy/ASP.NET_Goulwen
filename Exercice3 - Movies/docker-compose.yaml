@@ -21,6 +21,7 @@ services:
     environment:
       - APP_UID=1654
       - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORT=7201
       - ASPNET_VERSION=9.0.0
       - DOTNET_RUNNING_IN_CONTAINER=true
       - DOTNET_VERSION=9.0.0
