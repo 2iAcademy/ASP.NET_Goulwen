@@ -28,6 +28,7 @@ services:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     ports:
       - "5179:8080"
+      - "7201:7201"
     networks:
       - movies-network
     depends_on:
